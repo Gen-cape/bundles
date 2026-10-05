@@ -104,7 +104,22 @@
 
   dev = [
     # Editors
-    inputs'.neovim-riptide.packages.default
+    # inputs'.neovim-riptide.packages.default
+
+    (pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped {
+      plugins = with pkgs.vimPlugins; [
+        # tokyonight-nvim
+      ];
+      luaRcContent = ''
+        vim.cmd("packloadall!")
+        local config_path = (os.getenv("HOME") or "") .. "/.config/nvim/init.lua"
+        if vim.uv.fs_stat(config_path) then
+          dofile(config_path)
+        end
+      '';
+    })
+    # pkgs.nixd ...
+
     pkgs.neovide
     pkgs.zed-editor
     pkgs.vscode
