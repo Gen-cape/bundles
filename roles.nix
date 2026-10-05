@@ -5,6 +5,10 @@
 } @ args: let
   custom = import ./custom-pkgs.nix args;
 
+  scratchpad = let
+  in [
+  ];
+
   base = [
     # Core core
     pkgs.starship
@@ -212,6 +216,7 @@ in {
     dev
     media
     gaming
+    scratchpad
     ;
 
   # Full set
