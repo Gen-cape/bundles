@@ -80,6 +80,8 @@
     pkgs.slurp
     pkgs.satty
     pkgs.wl-clipboard
+    pkgs.wl-clip-persist
+    pkgs.xclip
     pkgs.wtype
 
     # Hardware & system controls
