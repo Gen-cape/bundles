@@ -10,7 +10,7 @@
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
     freesm-launcher.url = "github:FreesmTeam/FreesmLauncher";
     nur.url = "github:nix-community/NUR";
-    hijacker.url = "github.com/chilipizdrick/hijacker";
+    hijacker.url = "github:chilipizdrick/hijacker";
 
     # pins
     jj-pin.url = "github:nixos/nixpkgs/nixos-26.05-small";
