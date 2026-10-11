@@ -182,8 +182,7 @@
     pkgs.coppwr
     pkgs.pamixer
     pkgs.playerctl
-    custom.hijacker2
-    custom.clever-hijacker
+    inputs'.hijacker.packages.hijacker
     custom.hijacker-ctl
 
     # Documents
