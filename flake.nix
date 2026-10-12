@@ -11,6 +11,7 @@
     freesm-launcher.url = "github:FreesmTeam/FreesmLauncher";
     nur.url = "github:nix-community/NUR";
     hijacker.url = "github:chilipizdrick/hijacker";
+    nix-search-tv.url = "github:3timeslazy/nix-search-tv";
 
     # pins
     jj-pin.url = "github:nixos/nixpkgs/nixos-26.05-small";

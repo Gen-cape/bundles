@@ -102,6 +102,19 @@
     pkgs.nunito
     pkgs.dejavu_fonts
     pkgs.hyprland-qtutils
+    (
+      let
+        nix-search-tv = inputs'.nix-search-tv.packages.default;
+      in (pkgs.writeShellApplication
+        {
+          name = "ns";
+          runtimeInputs = with pkgs; [
+            fzf
+            nix-search-tv
+          ];
+          text = builtins.readFile "${nix-search-tv.src}/nixpkgs.sh";
+        })
+    )
   ];
 
   dev = [
