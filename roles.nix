@@ -97,10 +97,6 @@
     pkgs.baobab
     pkgs.activate-linux
     pkgs.matugen
-    pkgs.kdePackages.breeze
-    pkgs.kdePackages.breeze-icons
-    pkgs.nunito
-    pkgs.dejavu_fonts
     pkgs.hyprland-qtutils
     (
       let
