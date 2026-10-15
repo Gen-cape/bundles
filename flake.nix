@@ -34,7 +34,7 @@
         ignoreCollisions = true;
       };
 
-    roles = gate.withSystem system inputs (primes: import ./roles.nix (primes // pkgs));
+    roles = gate.withSystem system inputs (primes: import ./roles.nix (primes // {inherit pkgs lib;}));
   in {
     packages.${system} = lib.mapAttrs mkBundle roles;
   };
