@@ -151,9 +151,9 @@
 
     # C / C++
     pkgs.gnumake
+    pkgs.llvmPackages.clang-tools
     pkgs.llvmPackages.clang
     pkgs.llvmPackages.lldb
-    pkgs.llvmPackages.clang-tools
 
     # Python
     (pkgs.python3.withPackages (ps: [ps.pip]))
