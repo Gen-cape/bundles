@@ -167,7 +167,7 @@
 
     # Lua
     pkgs.lua51Packages.lua
-    pkgs.luajitPackages.luarocks
+    pkgs.lua51Packages.luarocks
     pkgs.lua-language-server
     pkgs.stylua
 
