@@ -148,7 +148,6 @@
     inputs'.riptide.packages.drvinter
     pkgs.alejandra
     pkgs.nixd
-    pkgs.nil
 
     # C / C++
     pkgs.gnumake
