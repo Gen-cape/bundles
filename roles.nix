@@ -161,8 +161,8 @@
     pkgs.llvmPackages.clang-tools
 
     # Python
-    pkgs.python3
-    pkgs.python3Packages.pip
+    (pkgs.python3.withPackages (ps: [ps.pip]))
+    pkgs.uv
     pkgs.pyright
 
     # Lua
