@@ -95,8 +95,4 @@ in {
     hijacker-ctl
     script-spam
     ;
-
-  hijacker-tools = [
-    hijacker-ctl
-  ];
 }
