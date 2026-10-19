@@ -98,6 +98,7 @@
     pkgs.activate-linux
     pkgs.matugen
     pkgs.hyprland-qtutils
+    pkgs.udiskie
     (
       let
         nix-search-tv = inputs'.nix-search-tv.packages.default;
