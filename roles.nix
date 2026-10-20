@@ -5,11 +5,13 @@
 } @ args: let
   custom = import ./custom-pkgs.nix args;
 
-  scratchpad = let
+  # Testing stuff here
+  lab = let
   in [
   ];
 
-  base = [
+  # Everything essential, small and cached
+  lite = [
     # Core core
     pkgs.starship
     pkgs.eza
@@ -59,27 +61,13 @@
     inputs'.jj-pin.legacyPackages.jujutsu
     # pkgs.jujutsu
     # pkgs.jj-fzf
-  ];
 
-  desktop = [
     # Terminals
     pkgs.foot
     pkgs.alacritty
     pkgs.ghostty
 
-    # Browsers
-    inputs'.zen-browser.packages.default
-    pkgs.chromium
-    # pkgs.dillo
-    # pkgs.tor-browser
-
-    # Communication
-    pkgs.vesktop
-    pkgs.telegram-desktop
-    pkgs.thunderbird
-    (pkgs.discord.override {withOpenASAR = true;})
-
-    # Wayland utilities
+    # Wayland stuff
     custom.satty-screenshot
     custom.script-spam
     pkgs.grim
@@ -93,12 +81,11 @@
     # Hardware & system controls
     pkgs.wluma
     pkgs.brightnessctl
-    pkgs.gpu-screen-recorder-gtk
     pkgs.amdgpu_top
     pkgs.networkmanagerapplet
     pkgs.libnotify
 
-    # Apps
+    # Apps (lightweight & system helpers)
     pkgs.nautilus
     pkgs.baobab
     pkgs.activate-linux
@@ -121,9 +108,7 @@
     pkgs.hyprpicker
     pkgs.xdg-utils # Provides xdg-open
     pkgs.wooz
-  ];
 
-  dev = [
     # Editors
     # inputs'.neovim-riptide.packages.default
 
@@ -142,8 +127,6 @@
     # pkgs.nixd ...
 
     pkgs.neovide
-    pkgs.zed-editor
-    pkgs.vscode
 
     # Workflow and config
     pkgs.just
@@ -159,12 +142,6 @@
     pkgs.alejandra
     pkgs.nixd
 
-    # C / C++
-    pkgs.gnumake
-    pkgs.llvmPackages.clang-tools
-    pkgs.llvmPackages.clang
-    pkgs.llvmPackages.lldb
-
     # Python
     (pkgs.python3.withPackages (ps: [ps.pip]))
     pkgs.uv
@@ -177,24 +154,17 @@
     pkgs.stylua
 
     # Misc toolchains & formatters
-    pkgs.openjdk21
     pkgs.tree-sitter
     pkgs.shfmt
     pkgs.fixjson
-    pkgs.vial
-  ];
 
-  media = [
     # Video and anime playback
     custom.mpv-custom
-    pkgs.vlc
     pkgs.imv
     pkgs.decibels
     pkgs.ani-cli
 
-    # Audio
-    # custom.spotify-spiced
-    pkgs.spotify
+    # Audio plumbing & controls
     pkgs.pavucontrol
     pkgs.easyeffects
     pkgs.coppwr
@@ -203,32 +173,72 @@
     inputs'.hijacker.packages.hijacker
     custom.hijacker-ctl
 
-    # Documents
-    pkgs.obsidian
-    pkgs.affine
+    # Documents & markup
     pkgs.typst
     pkgs.tinymist
     pkgs.typstyle
-    pkgs.onlyoffice-desktopeditors
     pkgs.pandoc
     pkgs.zathura
     pkgs.vale
     pkgs.mdformat
 
-    # Media acquisition
-    pkgs.krita
-    pkgs.nomacs
-    # pkgs.blender
-    pkgs.qbittorrent
-
-    pkgs.tesseract # Includes standard language data in Nixpkgs (or use pkgs.tesseract4 / override with languages)
+    # Image / Media CLI primitives
+    pkgs.tesseract
     pkgs.imagemagick
     pkgs.zbar
     pkgs.ffmpeg # Provides both ffmpeg and ffprobe
     pkgs.pulseaudio # Provides pactl
   ];
 
-  gaming = [
+  # Heavy stuff, rare updates
+  heavy = [
+    # Browsers
+    inputs'.zen-browser.packages.default
+    pkgs.chromium
+    # pkgs.dillo
+    # pkgs.tor-browser
+
+    # Communication
+    pkgs.vesktop
+    pkgs.telegram-desktop
+    pkgs.thunderbird
+    (pkgs.discord.override {withOpenASAR = true;})
+
+    # Screen recorder
+    pkgs.gpu-screen-recorder-gtk
+
+    # Heavy Editors
+    pkgs.zed-editor
+    pkgs.vscode
+
+    # C / C++
+    pkgs.gnumake
+    pkgs.llvmPackages.clang-tools
+    pkgs.llvmPackages.clang
+    pkgs.llvmPackages.lldb
+
+    # Misc toolchains
+    pkgs.openjdk21
+    pkgs.vial
+
+    # Video players
+    pkgs.vlc
+
+    # Audio apps
+    # custom.spotify-spiced
+    pkgs.spotify
+
+    # Documents
+    pkgs.obsidian
+    pkgs.affine
+    pkgs.onlyoffice-desktopeditors
+
+    # Media acquisition & creation
+    pkgs.krita
+    pkgs.nomacs
+    # pkgs.blender
+    pkgs.qbittorrent
+
     # Tools / compatibility layers
     pkgs.mangohud
     pkgs.bottles
@@ -240,26 +250,18 @@
     pkgs.faugus-launcher
 
     # Minecraft
-    pkgs.ferium
     pkgs.packwiz
     inputs'.freesm-launcher.packages.default
 
     inputs'.nur.legacyPackages.repos.gepbird.drg-mint-notag
   ];
-
-  workstation = base ++ desktop ++ dev ++ media ++ gaming;
 in {
   # Bundles (nix profile install .#<name>)
   inherit
-    base
-    desktop
-    dev
-    media
-    gaming
-    scratchpad
+    lite
+    heavy
+    lab
     ;
 
-  # Full set
-  inherit workstation;
-  default = workstation;
+  default = lite;
 }
