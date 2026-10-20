@@ -7,29 +7,6 @@
 
   scratchpad = let
   in [
-    # Core tools
-    pkgs.slurp
-    pkgs.hyprpicker
-    pkgs.tesseract # Includes standard language data in Nixpkgs (or use pkgs.tesseract4 / override with languages)
-    pkgs.imagemagick
-    pkgs.zbar
-    pkgs.curl
-    pkgs.jq
-    pkgs.ffmpeg # Provides both ffmpeg and ffprobe
-    pkgs.bc
-    pkgs.coreutils # Provides stat
-    pkgs.procps # Provides pkill
-    pkgs.xdg-utils # Provides xdg-open
-    pkgs.mpv
-    pkgs.pulseaudio # Provides pactl
-
-    # Recording backends (keep at least one)
-    pkgs.gpu-screen-recorder
-    pkgs.wl-screenrec
-    pkgs.wf-recorder
-
-    # Optional
-    pkgs.translate-shell # Provides trans
   ];
 
   base = [
@@ -46,6 +23,12 @@
     pkgs.p7zip
     pkgs.killall
     pkgs.zoxide
+
+    pkgs.curl
+    pkgs.bc
+    pkgs.coreutils # Provides stat
+    pkgs.procps # Provides pkill
+    pkgs.translate-shell # Provides trans
 
     # Diagnostics
     pkgs.btop
@@ -135,6 +118,9 @@
           text = builtins.readFile "${nix-search-tv.src}/nixpkgs.sh";
         })
     )
+    pkgs.hyprpicker
+    pkgs.xdg-utils # Provides xdg-open
+    pkgs.wooz
   ];
 
   dev = [
@@ -234,6 +220,12 @@
     pkgs.nomacs
     # pkgs.blender
     pkgs.qbittorrent
+
+    pkgs.tesseract # Includes standard language data in Nixpkgs (or use pkgs.tesseract4 / override with languages)
+    pkgs.imagemagick
+    pkgs.zbar
+    pkgs.ffmpeg # Provides both ffmpeg and ffprobe
+    pkgs.pulseaudio # Provides pactl
   ];
 
   gaming = [
