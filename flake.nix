@@ -37,5 +37,10 @@
     roles = gate.withSystem system inputs (primes: import ./roles.nix (primes // {inherit pkgs lib;}));
   in {
     packages.${system} = lib.mapAttrs mkBundle roles;
+    # nix develop .#raw
+    # minimal tools if things go bad
+    devShells.${system}.raw = pkgs.mkShellNoCC {
+      packages = roles.raw;
+    };
   };
 }

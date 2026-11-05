@@ -5,193 +5,192 @@
 } @ args: let
   custom = import ./custom-pkgs.nix args;
 
-  # Testing stuff here
-  lab = let
+  exp = let
   in [
   ];
 
-  # Everything essential, small and cached
-  lite = [
-    # Core core
-    pkgs.starship
-    pkgs.eza
-    pkgs.ripgrep
-    pkgs.fd
-    pkgs.fzf
-    pkgs.jq
-    pkgs.tealdeer
-    pkgs.trash-cli
-    pkgs.zip
-    pkgs.p7zip
-    pkgs.killall
-    pkgs.zoxide
-
-    pkgs.curl
-    pkgs.bc
-    pkgs.coreutils # Provides stat
-    pkgs.procps # Provides pkill
-    pkgs.translate-shell # Provides trans
+  # minimal system rescue kit
+  raw = [
+    pkgs.ripgrep # grep alternative
+    pkgs.fd # find alternative
+    pkgs.fzf # fzf finder
+    pkgs.jq # json processor cli
+    pkgs.ouch # archives
+    pkgs.zoxide # cd may be overriden
+    pkgs.eza # ls may be overriden
+    pkgs.curl # web data transfer
 
     # Diagnostics
-    pkgs.btop
-    pkgs.gdu
-    pkgs.ncdu
-    pkgs.hyperfine
-    pkgs.isd
-    pkgs.evtest
-    pkgs.grc
-    pkgs.ripdrag
-    pkgs.exiftool
+    pkgs.bottom
+    pkgs.systemctl-tui
+    pkgs.dua # rust space usage list, for mass deletions
 
     # Nix tooling
-    inputs'.nix-index-database.packages.nix-index-with-small-db
     inputs'.nix-index-database.packages.comma-with-db
 
-    # File management & tag navigation
-    pkgs.yazi
-    # pkgs.tmsu
-    # inputs'.riptide.packages.tmsufolders
-    # inputs'.riptide.packages.tmsufs
-    # inputs'.riptide.packages.quest
-    # inputs'.riptide.packages.tray-tui
-
-    # Version control
+    # Version control and docs
     pkgs.git
-    inputs'.jj-pin.legacyPackages.jj-fzf
-    inputs'.jj-pin.legacyPackages.jujutsu
-    # pkgs.jujutsu
-    # pkgs.jj-fzf
+    pkgs.jujutsu # glorious git alternative
+    pkgs.tealdeer # tldr for docs
 
-    # Terminals
-    pkgs.foot
-    pkgs.alacritty
-    pkgs.ghostty
-
-    # Wayland stuff
-    custom.satty-screenshot
-    custom.script-spam
-    pkgs.grim
-    pkgs.slurp
-    pkgs.satty
-    pkgs.wl-clipboard
-    pkgs.wl-clip-persist
-    pkgs.xclip
-    pkgs.wtype
-
-    # Hardware & system controls
-    pkgs.wluma
-    pkgs.brightnessctl
-    pkgs.amdgpu_top
-    pkgs.networkmanagerapplet
-    pkgs.libnotify
-
-    # Apps (lightweight & system helpers)
-    pkgs.nautilus
-    pkgs.baobab
-    pkgs.activate-linux
-    pkgs.matugen
-    pkgs.hyprland-qtutils
-    pkgs.udiskie
-    (
-      let
-        nix-search-tv = inputs'.nix-search-tv.packages.default;
-      in (pkgs.writeShellApplication
-        {
-          name = "ns";
-          runtimeInputs = with pkgs; [
-            fzf
-            nix-search-tv
-          ];
-          text = builtins.readFile "${nix-search-tv.src}/nixpkgs.sh";
-        })
-    )
-    pkgs.hyprpicker
-    pkgs.xdg-utils # Provides xdg-open
-    pkgs.wooz
-
-    # Editors
-    # inputs'.neovim-riptide.packages.default
-
-    (pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped {
-      plugins = with pkgs.vimPlugins; [
-        # tokyonight-nvim
-      ];
-      luaRcContent = ''
-        vim.cmd("packloadall!")
-        local config_path = (os.getenv("HOME") or "") .. "/.config/nvim/init.lua"
-        if vim.uv.fs_stat(config_path) then
-          dofile(config_path)
-        end
-      '';
-    })
-    # pkgs.nixd ...
-
-    pkgs.neovide
-
-    # Workflow and config
-    pkgs.just
-    pkgs.dotter
-    pkgs.home-manager
-
-    # Nix
-    pkgs.npins
-    pkgs.nix-init
-    pkgs.nix-inspect
-    pkgs.nix-melt
-    inputs'.riptide.packages.drvinter
-    pkgs.alejandra
-    pkgs.nixd
-
-    # Python
-    (pkgs.python3.withPackages (ps: [ps.pip]))
-    pkgs.uv
-    pkgs.pyright
-
-    # Lua
-    pkgs.lua51Packages.lua
-    pkgs.lua51Packages.luarocks
-    pkgs.lua-language-server
-    pkgs.stylua
-
-    # Misc toolchains & formatters
-    pkgs.tree-sitter
-    pkgs.shfmt
-    pkgs.fixjson
-
-    # Video and anime playback
-    custom.mpv-custom
-    pkgs.imv
-    pkgs.decibels
-    pkgs.ani-cli
-
-    # Audio plumbing & controls
-    pkgs.pavucontrol
-    pkgs.easyeffects
-    pkgs.coppwr
-    pkgs.pamixer
-    pkgs.playerctl
-    inputs'.hijacker.packages.hijacker
-    custom.hijacker-ctl
-
-    # Documents & markup
-    pkgs.typst
-    pkgs.tinymist
-    pkgs.typstyle
-    pkgs.pandoc
-    pkgs.zathura
-    pkgs.vale
-    pkgs.mdformat
-
-    # Image / Media CLI primitives
-    pkgs.tesseract
-    pkgs.imagemagick
-    pkgs.zbar
-    pkgs.ffmpeg # Provides both ffmpeg and ffprobe
-    pkgs.pulseaudio # Provides pactl
+    # editors & navigation
+    pkgs.neovim
+    pkgs.micro
+    pkgs.yazi
   ];
 
+  # Everything essential, small and cached
+  main =
+    raw
+    ++ [
+      # Core core
+      pkgs.starship
+      pkgs.trash-cli
+      pkgs.translate-shell # Provides trans
+      pkgs.ugrep
+
+      # Diagnostics
+      pkgs.gdu # space usage list
+      pkgs.hyperfine # benchmark app
+
+      # systemd managers
+      pkgs.systemd-manager-tui
+      pkgs.sysz
+
+      pkgs.grc # colorizer
+      pkgs.ripdrag #
+
+      # Nix tooling
+      inputs'.nix-index-database.packages.nix-index-with-small-db
+
+      # Version control
+      inputs'.jj-pin.legacyPackages.jj-fzf
+      inputs'.jj-pin.legacyPackages.jujutsu
+      # pkgs.jujutsu
+      # pkgs.jj-fzf
+
+      # Terminals
+      pkgs.foot
+      pkgs.alacritty
+      pkgs.ghostty
+
+      # Wayland stuff
+      custom.satty-screenshot
+      custom.script-spam
+      pkgs.grim
+      pkgs.slurp
+      pkgs.satty
+      pkgs.wl-clipboard
+      pkgs.wl-clip-persist
+      pkgs.wtype
+
+      # Hardware & system controls
+      pkgs.wluma
+      pkgs.brightnessctl
+      pkgs.amdgpu_top
+      pkgs.networkmanagerapplet
+      pkgs.libnotify
+
+      # Apps (lightweight & system helpers)
+      pkgs.nautilus
+      pkgs.matugen
+      pkgs.udiskie
+      (
+        let
+          nix-search-tv = inputs'.nix-search-tv.packages.default;
+        in (pkgs.writeShellApplication
+          {
+            name = "ns";
+            runtimeInputs = with pkgs; [
+              fzf
+              nix-search-tv
+            ];
+            text = builtins.readFile "${nix-search-tv.src}/nixpkgs.sh";
+          })
+      )
+      pkgs.hyprpicker
+      pkgs.xdg-utils # Provides xdg-open
+      pkgs.wooz
+
+      # Editors
+      (pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped {
+        plugins = with pkgs.vimPlugins; [
+          # tokyonight-nvim
+        ];
+        luaRcContent = ''
+          vim.cmd("packloadall!")
+          local config_path = (os.getenv("HOME") or "") .. "/.config/nvim/init.lua"
+          if vim.uv.fs_stat(config_path) then
+            dofile(config_path)
+          end
+        '';
+      })
+      # pkgs.nixd ...
+
+      pkgs.neovide
+
+      # Workflow and config
+      pkgs.just
+      pkgs.dotter
+      pkgs.home-manager
+
+      # Nix
+      pkgs.npins
+      pkgs.nix-init
+      pkgs.nix-inspect
+      pkgs.nix-melt
+      inputs'.riptide.packages.drvinter
+      pkgs.alejandra
+      pkgs.nixd
+
+      # Python
+      pkgs.uv
+      pkgs.pyright
+
+      # Lua
+      pkgs.lua51Packages.lua
+      pkgs.lua51Packages.luarocks
+      pkgs.lua-language-server
+      pkgs.stylua
+
+      # Misc toolchains & formatters
+      pkgs.tree-sitter
+      pkgs.shfmt
+      pkgs.fixjson
+
+      # Video and anime playback
+      custom.mpv-custom
+      pkgs.imv
+      pkgs.decibels
+      pkgs.ani-cli
+
+      # Audio plumbing & controls
+      pkgs.pavucontrol
+      pkgs.easyeffects
+      pkgs.coppwr
+      pkgs.pamixer
+      pkgs.playerctl
+      inputs'.hijacker.packages.hijacker
+      custom.hijacker-ctl
+
+      # Documents & markup
+      pkgs.typst
+      pkgs.tinymist
+      pkgs.typstyle
+      pkgs.pandoc
+      pkgs.zathura
+      pkgs.vale
+      pkgs.mdformat
+
+      # Image / Media CLI primitives
+      pkgs.tesseract
+      pkgs.imagemagick
+      pkgs.zbar
+      pkgs.ffmpeg # Provides both ffmpeg and ffprobe
+    ];
+
   # Heavy stuff, rare updates
-  heavy = [
+  max = [
     # Browsers
     inputs'.zen-browser.packages.default
     pkgs.chromium
@@ -258,10 +257,16 @@
 in {
   # Bundles (nix profile install .#<name>)
   inherit
-    lite
-    heavy
-    lab
+    main
+    max
+    exp
     ;
 
-  default = lite;
+  default = main;
+
+  # Emergency shell (nix shell .#raw)
+  inherit raw;
+
+  # Dev shell exposure (nix develop .#raw)
+  devShells.raw = pkgs.mkShellNoCC {packages = raw;};
 }
