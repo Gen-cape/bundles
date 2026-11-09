@@ -118,7 +118,7 @@
       pkgs.tinymist
       pkgs.typstyle
       pkgs.vale
-      pkgs.viddy # watch but fancier
+      # pkgs.viddy # watch but fancier
 
       # gui
       pkgs.foot # the most basic one
